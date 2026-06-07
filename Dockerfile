@@ -17,7 +17,7 @@ WORKDIR /app
 # Pin to a commit (not a branch): reproducible, and changing it busts Docker's
 # layer cache so a rebuild actually picks up new emulator/server code.
 ARG CRAFTOS_REPO=https://github.com/r33drichards/craftos2
-ARG CRAFTOS_REF=1dff062
+ARG CRAFTOS_REF=157f6cb
 RUN git clone --recurse-submodules "$CRAFTOS_REPO" craftos2 \
  && git -C craftos2 checkout "$CRAFTOS_REF" \
  && git -C craftos2 submodule update --init --recursive \
@@ -37,6 +37,7 @@ RUN cd mcp && cargo build --release
 
 # Headless: dummy SDL drivers, ROM path, both endpoints on $PORT (Railway sets it).
 ENV CRAFTOS_ROM=/app/craftos2-rom \
+    CRAFTOS_SIM_DIR=/app/craftos2/sim \
     SDL_VIDEODRIVER=dummy \
     SDL_AUDIODRIVER=dummy \
     PORT=8080
