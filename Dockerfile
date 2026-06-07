@@ -17,7 +17,7 @@ WORKDIR /app
 # Pin to a commit (not a branch): reproducible, and changing it busts Docker's
 # layer cache so a rebuild actually picks up new emulator/server code.
 ARG CRAFTOS_REPO=https://github.com/r33drichards/craftos2
-ARG CRAFTOS_REF=157f6cb
+ARG CRAFTOS_REF=c14db4b
 RUN git clone --recurse-submodules "$CRAFTOS_REPO" craftos2 \
  && git -C craftos2 checkout "$CRAFTOS_REF" \
  && git -C craftos2 submodule update --init --recursive \
