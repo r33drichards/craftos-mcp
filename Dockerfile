@@ -14,9 +14,13 @@ WORKDIR /app
 
 # The emulator + MCP server source lives in the craftos2 fork; the ROM is
 # licensed separately and cloned at build time.
+# Pin to a commit (not a branch): reproducible, and changing it busts Docker's
+# layer cache so a rebuild actually picks up new emulator/server code.
 ARG CRAFTOS_REPO=https://github.com/r33drichards/craftos2
-ARG CRAFTOS_REF=turtle-sim
-RUN git clone --branch "$CRAFTOS_REF" --recurse-submodules --depth 1 "$CRAFTOS_REPO" craftos2 \
+ARG CRAFTOS_REF=1dff062
+RUN git clone --recurse-submodules "$CRAFTOS_REPO" craftos2 \
+ && git -C craftos2 checkout "$CRAFTOS_REF" \
+ && git -C craftos2 submodule update --init --recursive \
  && git clone --depth 1 https://github.com/MCJack123/craftos2-rom craftos2-rom
 
 WORKDIR /app/craftos2
